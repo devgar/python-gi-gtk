@@ -42,6 +42,8 @@ class HeaderBarWindow(Gtk.Window):
         self.connect('key-press-event', self.on_key_function)
         self.connect("delete-event", Gtk.main_quit)
 
+        self.load_info()
+
         self.set_position(Gtk.WindowPosition.CENTER)
 
     def on_click_left(self, widget):
@@ -55,6 +57,12 @@ class HeaderBarWindow(Gtk.Window):
         print "Icon change: '%s'" % icon
         self.set_icon_from_file(icon)
 
+    def load_info(self):
+        import json
+        with open("info.json") as f:
+            ops = json.loads( f.read() )
+            self.hb.set_title(ops["title"])
+            self.hb.set_subtitle(ops["mainfile"])
 
     def on_key_function(self, widget, event):
         if Gdk.ModifierType.CONTROL_MASK & event.state:
